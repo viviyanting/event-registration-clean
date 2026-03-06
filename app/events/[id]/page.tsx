@@ -21,6 +21,7 @@ export default function EventDetailPage({ params }: PageProps) {
 
   if (!event) return <div>找不到活動</div>;
 
+  const router = useRouter()
   const handleRegister = async () => {
     console.log("點擊報名按鈕",event.id);
     setLoading(true);
@@ -32,19 +33,16 @@ export default function EventDetailPage({ params }: PageProps) {
         }
     })
 
+    if(res.status===401){
+        alert("請先登入")        
+        router.push("/login")
+        return
+    }
+
     if(!res.ok){
       alert("操作失敗");
       setLoading(false);
       return;
-    }
-    else
-    {
-      if(res.status===401){
-        alert("請先登入")
-        const router = useRouter()
-        router.push("/login")
-        return
-      }
     }
     
     const data = await res.json();
