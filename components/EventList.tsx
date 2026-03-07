@@ -1,5 +1,6 @@
-import { Event } from "@/lib/data";
+"use client"
 import EventItem from "./EventItem";
+import { Event } from "@/types/event";
 
 type Props = {
     events: Event[];

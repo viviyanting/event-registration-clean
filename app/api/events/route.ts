@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { events } from "@/lib/data";
+import prisma from "@/lib/prisma";
 
 export async function GET() {
     console.log("GET /api/events");
-    console.log("events : ", events);
+    const events = await prisma.event.findMany()
+    // console.log("events : ", events);
     return NextResponse.json(events);
     
 }

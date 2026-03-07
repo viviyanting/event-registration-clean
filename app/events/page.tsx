@@ -1,7 +1,16 @@
-import { events } from "@/lib/data";
 import EventList from "@/components/EventList";
 
-export default function EventsPage(){
+async function getEvents() {
+    const res = await fetch("http://localhost:3000/api/events");
+    if(!res.ok){
+        throw new Error("failed to fetch events");
+    }
+
+    return res.json();
+}
+
+export default async function EventsPage(){
+    const events = await getEvents();
     return (
         <div>
             <h1>活動列表</h1>

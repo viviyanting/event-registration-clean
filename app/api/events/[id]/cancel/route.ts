@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { events } from "@/lib/data";
+import prisma from "@/lib/prisma";
 
 type Params = {
     params:{
@@ -7,8 +7,10 @@ type Params = {
     };
 };
 
-export async function POST(_:Request,{params}:Params) {
-    const event = events.find((e)=>e.id===params.id);
+export async function POST(req:Request,{params}:Params) {
+    const event = await prisma.event.findUnique({
+        where: { id: Number(params.id) }
+    });
     if(!event){
         return NextResponse.json(
             { message:"活動不存在" },
@@ -16,9 +18,9 @@ export async function POST(_:Request,{params}:Params) {
         );
     }
     
-    event.isRegistered = false;
-    return NextResponse.json({
-        message:"已取消報名",
-        event,
-    });
+    // event.isRegistered = false;
+    // return NextResponse.json({
+    //     message:"已取消報名",
+    //     event,
+    // });
 }

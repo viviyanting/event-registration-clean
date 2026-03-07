@@ -1,5 +1,7 @@
+"use client"
 import Link from "next/link";
-import { Event } from "@/lib/data";
+import { Event } from "@/types/event";
+
 
 type Props = {
     event : Event;
