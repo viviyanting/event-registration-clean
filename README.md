@@ -71,13 +71,13 @@ This will generate the `dev.db` file locally.
 
 ## Architecture
 Client (React / Next.js)
-    ↓
+    →
 Next.js API Routes
-    ↓
+    →
 JWT Authentication
-    ↓
+    →
 Prisma ORM
-    ↓
+    →
 Database (SQLite)
 
 ## API Flow
