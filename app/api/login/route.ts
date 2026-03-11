@@ -1,9 +1,9 @@
+//【API-登入頁】
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken"
 import prisma from "@/lib/prisma";
 
 export async function POST(req:Request) {
-    console.log("login api called");
     const { username , password } = await req.json()
 
     //帳號驗證
@@ -17,6 +17,7 @@ export async function POST(req:Request) {
         { status: 401 })
     }
 
+    //簽入token
     const token = jwt.sign(
             { 
                 userId: user.id,

@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link";
 import { Event } from "@/types/event";
+import styles from "./EventItem.module.css";
 
 
 type Props = {
@@ -8,11 +9,20 @@ type Props = {
 };
 
 export default function EventItem({event}:Props){
+    const handleDetail = async () => {
+        window.location.href = `/events/${event.id}`;    
+    }
+
+
     return (
-        <li>
-            <Link href={`/events/${event.id}`}>
-                {event.title}
-            </Link>
-        </li>
+        <div className={styles.card}>
+        <div className={styles.title}>{event.title}</div>
+        <div className={styles.desc}>{event.content}</div>
+            <button onClick={handleDetail} className={styles.button}>
+                View Detail
+            </button>
+        </div>
+
+        
     );
 }

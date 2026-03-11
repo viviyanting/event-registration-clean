@@ -1,21 +1,15 @@
+//【API-活動詳細頁】取得活動詳細資料
 import prisma from "@/lib/prisma";
-import jwt from "jsonwebtoken";
+import { getUserIdFromRequest } from "@/lib/auth";
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }) 
   {
     //解析token取得user資料
-    const authHeader = request.headers.get("authorization");
-    let userId = null;
-    if(authHeader){
-      const token = authHeader.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-        userId: number
-      };
-      userId = decoded.userId;
-    }
-
+    const userId = getUserIdFromRequest(request);
+    
+    //取得活動詳細資料
     const event = await prisma.event.findUnique({
       where: {
         id: Number(params.id)
@@ -33,17 +27,18 @@ export async function GET(
       );
     }
 
-  const isRegistered = event?.registrations.some(
+    //判斷是否報名
+    const isRegistered = event?.registrations.some(
     r => r.userId === Number(userId)
   )
 
+  //整理資料再傳到Client
   const  Event = {
-    event_id: Number(params.id),
-    userId:Number(userId),
+    id: Number(params.id),
     title: event?.title,
     content: event?.content,
     isRegistered: isRegistered
-};
+  };
 
   return Response.json(Event);
 }

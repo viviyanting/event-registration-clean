@@ -1,4 +1,4 @@
-
+//【PAGE(Client)-活動詳細頁】
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,11 +15,7 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
   useEffect(() => {
 
     const fetchEvent = async () => {
-
       const token = localStorage.getItem("token");
-
-      // console.log("eventId 內容: ",eventId);
-
       const res = await fetch(`/api/events/${ Number(eventId) }`, {
         headers: token
           ? { Authorization: `Bearer ${token}` }
@@ -34,15 +30,17 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
 
   }, [eventId]);
 
+  //報名
   const handleRegister = async () => {
+    console.log("eventId = ",eventId);
 
-    if (!event) return;
+    if (!eventId) return;
 
     setLoading(true);
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`/api/events/${event.id}/register`, {
+    const res = await fetch(`/api/events/${ eventId }/register`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -55,6 +53,8 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
       return;
     }
 
+    console.log("res",res);
+
     if (!res.ok) {
       alert("操作失敗");
       setLoading(false);
@@ -62,20 +62,22 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
     }
 
     const data = await res.json();
-    setEvent(data.event);
-
+    console.log("報名API data = ", data);
+    setEvent(data);
     setLoading(false);
+    alert("報名完成!");
   };
 
+  //取消報名
   const handleCancel = async () => {
 
-    if (!event) return;
+    if (!eventId) return;
 
     setLoading(true);
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`/api/events/${event.id}/cancel`, {
+    const res = await fetch(`/api/events/${ eventId }/cancel`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -89,9 +91,10 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
     }
 
     const data = await res.json();
-    setEvent(data.event);
-
+    console.log("取消報名API data = ", data);
+    setEvent(data);
     setLoading(false);
+    alert("已取消報名!");
   };
 
   if (!event) {
@@ -99,7 +102,7 @@ export default function EventDetailClient({ eventId }: { eventId: string }) {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>{event.title}</h1>
       <p>{event.content}</p>
 
