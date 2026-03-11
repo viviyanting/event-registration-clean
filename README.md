@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Event Registration Platform
+A simple fullstack event registration platform built with Next.js, Prisma, and JWT authentication.
+
+
+## Features
+- User login with JWT authentication
+- View event list
+- Register for events
+- Cancel event registration
+- View my registered events
+
+
+## Tech Stack
+- Next.js (App Router)
+- TypeScript
+- Prisma ORM
+- SQLite
+- JWT Authentication
+
+
+## Project Structure
+app/
+api/
+events/
+login/
+my-events/
+components/
+prisma/
+types/
+
 
 ## Getting Started
+### 1. Clone the repository
+https://github.com/viviyanting/event-registration-clean.git
 
-First, run the development server:
+### 2. Install dependencies
+npm install
 
-```bash
+### 3. Setup environment variables
+Create a `.env` file based on `.env.example`.
+cp .env.example .env
+
+### 4. Run database migration
+npx prisma migrate dev
+
+### 5. Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Open http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Endpoints
+| Method | Endpoint | Description |
+|------|------|------|
+| POST | /api/login | User login |
+| GET | /api/events | Get event list |
+| GET | /api/events/[id] | Get event detail |
+| POST | /api/events/[id]/register | Register event |
+| POST | /api/events/[id]/cancel | Cancel registration |
+| GET | /api/my-events | Get user's registered events |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Future Improvements
+- Loading states
+- Better error handling
+- UI improvements
+- Deploy database (PostgreSQL)
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture
+Client (React / Next.js)
+    ↓
+Next.js API Routes
+    ↓
+JWT Authentication
+    ↓
+Prisma ORM
+    ↓
+Database (SQLite)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Flow
+Client → API Request → Verify JWT → Extract userId → Query Database → Response JSON
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
