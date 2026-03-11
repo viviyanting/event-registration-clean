@@ -47,6 +47,10 @@ npx prisma migrate dev
 npm run dev
 Open http://localhost:3000
 
+### 6. Setup Database
+Run Prisma migration to create the local SQLite database:
+This will generate the `dev.db` file locally.
+
 
 ## API Endpoints
 | Method | Endpoint | Description |
